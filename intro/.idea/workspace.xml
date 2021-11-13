@@ -35,19 +35,71 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RunManager">
-    <configuration name="go build intro/hello_go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestReflect in intro/testing">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="intro" />
       <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="intro/hello_go" />
+      <kind value="FILE" />
+      <package value="intro" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/hello_go/helloGo.go" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCallBack in intro/testing" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="intro" />
+      <working_directory value="$PROJECT_DIR$/testing" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="intro/testing" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCallBack\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestClosure in intro/testing" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="intro" />
+      <working_directory value="$PROJECT_DIR$/testing" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="intro/testing" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestClosure\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestInterface in intro/testing" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="intro" />
+      <working_directory value="$PROJECT_DIR$/testing" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="intro/testing" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestInterface\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestReflect in intro/testing" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="intro" />
+      <working_directory value="$PROJECT_DIR$/testing" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="intro/testing" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestReflect\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build intro/hello_go" />
+        <item itemvalue="Go Test.TestReflect in intro/testing" />
+        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Test.TestInterface in intro/testing" />
+        <item itemvalue="Go Test.TestClosure in intro/testing" />
+        <item itemvalue="Go Test.TestCallBack in intro/testing" />
       </list>
     </recent_temporary>
   </component>
