@@ -37,7 +37,20 @@ func NewKitDiscoverClient(consulHost string, consulPort int) (DiscoveryClient, e
 	}, err
 }
 
-func (consulClient *KitDiscoverClient) Register(serviceName, instanceId, healthCheckUrl string, instanceHost string, instancePort int, meta map[string]string, logger *log.Logger) bool {
+// Register
+// @Desc: 	借助 consul.Client.Register 实现
+// @Rece:	consulClient
+// @Param:	serviceName
+// @Param:	instanceId
+// @Param:	healthCheckUrl
+// @Param:	instanceHost
+// @Param:	instancePort
+// @Param:	meta
+// @Param:	logger
+// @Return:	bool
+// @Notice:
+func (consulClient *KitDiscoverClient) Register(serviceName, instanceId, healthCheckUrl string,
+	instanceHost string, instancePort int, meta map[string]string, logger *log.Logger) bool {
 
 	// 1. 构建服务实例元数据
 	serviceRegistration := &api.AgentServiceRegistration{
@@ -84,7 +97,7 @@ func (consulClient *KitDiscoverClient) DeRegister(instanceId string, logger *log
 
 func (consulClient *KitDiscoverClient) DiscoverServices(serviceName string, logger *log.Logger) []interface{} {
 
-	//  该服务已监控并缓存
+	//  先查看本地是否该服务已监控并缓存
 	instanceList, ok := consulClient.instancesMap.Load(serviceName)
 	if ok {
 		return instanceList.([]interface{})
@@ -101,9 +114,11 @@ func (consulClient *KitDiscoverClient) DiscoverServices(serviceName string, logg
 		go func() {
 			// 使用 consul 服务实例监控来监控某个服务名的服务实例列表变化
 			params := make(map[string]interface{})
+			// 根据服务名向Consul注册的Service类型的Watch监控机制
 			params["type"] = "service"
 			params["service"] = serviceName
 			plan, _ := watch.Parse(params)
+			// 这个Handler用来对已经被监控且发生变化的服务实例进行处理
 			plan.Handler = func(u uint64, i interface{}) {
 				if i == nil {
 					return

@@ -2,14 +2,14 @@ package main
 
 import (
 	"context"
+	"discovery/discover"
+	"discovery/string-service/config"
+	"discovery/string-service/endpoint"
+	"discovery/string-service/plugins"
+	"discovery/string-service/service"
+	"discovery/string-service/transport"
 	"flag"
 	"fmt"
-	"github.com/longjoy/micro-go-book/ch6-discovery/string-service/config"
-	"github.com/longjoy/micro-go-book/ch6-discovery/string-service/endpoint"
-	"github.com/longjoy/micro-go-book/ch6-discovery/string-service/plugins"
-	"github.com/longjoy/micro-go-book/ch6-discovery/string-service/service"
-	"github.com/longjoy/micro-go-book/ch6-discovery/string-service/transport"
-	"github.com/longjoy/micro-go-book/common/discover"
 	uuid "github.com/satori/go.uuid"
 	"net/http"
 	"os"
@@ -41,6 +41,7 @@ func main() {
 		os.Exit(-1)
 
 	}
+
 	var svc service.Service
 	svc = service.StringService{}
 	// add logging middleware
