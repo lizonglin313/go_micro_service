@@ -69,7 +69,8 @@ func main() {
 	go func() {
 		config.Logger.Println("Http Server start at port:" + strconv.Itoa(*servicePort))
 		//启动前执行注册
-		if !discoveryClient.Register(*serviceName, instanceId, "/health", *serviceHost,  *servicePort, nil, config.Logger){
+		if !discoveryClient.Register(*serviceName, instanceId, "/health",
+			*serviceHost,  *servicePort, nil, config.Logger){
 			config.Logger.Printf("string-service for service %s failed.", serviceName)
 			// 注册失败，服务启动失败
 			os.Exit(-1)

@@ -8,10 +8,10 @@ import (
 	"strconv"
 )
 
-// 服务实例结构体
+// InstanceInfo 自定义方法实现服务发现接口.
 type InstanceInfo struct {
 	ID                string            `json:"ID"`                // 服务实例ID
-	Service           string            `json:"Service,omitempty"` // 服务发现时返回的服务名
+	Service           string            `json:"Service,omitempty"` // 服务发现时返回的服务名,omitempty忽略0值.
 	Name              string            `json:"Name"`              // 服务名
 	Tags              []string          `json:"Tags,omitempty"`    // 标签，可用于进行服务过滤
 	Address           string            `json:"Address"`           // 服务实例HOST
@@ -25,7 +25,9 @@ type InstanceInfo struct {
 type Check struct {
 	DeregisterCriticalServiceAfter string   `json:"DeregisterCriticalServiceAfter"` // 多久之后注销服务
 	Args                           []string `json:"Args,omitempty"`                 // 请求参数
-	HTTP                           string   `json:"HTTP"`                           // 健康检查地址
+
+	// 健康检查地址,这是对于consul来说的,使consul知道应该请求哪个路由来询问服务实例的健康状态
+	HTTP                           string   `json:"HTTP"`
 
 	// 设置时只能设置其中一个
 	Interval string `json:"Interval,omitempty"` // Consul 主动检查间隔
@@ -37,13 +39,16 @@ type Weights struct {
 	Warning int `json:"Warning"`
 }
 
-// 要实现 discovery client 的三个方法
+// MyDiscoverClient 实现.
 type MyDiscoverClient struct {
 	Host string // Consul 的 Host
 	Port int    // Consul 的 端口
 }
 
+
+// NewMyDiscoverClient 实例化服务发现客户端并返回.
 func NewMyDiscoverClient(consulHost string, consulPort int) (DiscoveryClient, error) {
+	// 用于寻找consul服务
 	return &MyDiscoverClient{
 		Host: consulHost,
 		Port: consulPort,
@@ -72,15 +77,15 @@ func (consulClient *MyDiscoverClient) Register(serviceName, instanceId, healthCh
 		},
 	}
 
-	byteData, _ := json.Marshal(instanceInfo)
+	byteData, _ := json.Marshal(instanceInfo)	// 序列化数据进行传输
 
-	// 2. 向 Consul 发送服务注册的请求
+	// 2. 向 Consul 发送服务注册的 PUT 请求,实际上kit也是封装了这样的请求.
 	req, err := http.NewRequest("PUT",
 		"http://"+consulClient.Host+":"+strconv.Itoa(consulClient.Port)+"/v1/agent/service/register",
 		bytes.NewReader(byteData))
 
 	if err == nil {
-		req.Header.Set("Content-Type", "application/json;charset=UTF-8")
+		req.Header.Set("Content-Type", "application/json;charset=UTF-8")	// 设置json格式
 		client := http.Client{}
 		resp, err := client.Do(req)
 
@@ -100,6 +105,7 @@ func (consulClient *MyDiscoverClient) Register(serviceName, instanceId, healthCh
 	return false
 }
 
+// DeRegister 实现注销服务,只需要指定实例id.
 func (consulClient *MyDiscoverClient) DeRegister(instanceId string, logger *log.Logger) bool {
 	// 1.发送注销请求
 	req, err := http.NewRequest("PUT",
@@ -121,6 +127,7 @@ func (consulClient *MyDiscoverClient) DeRegister(instanceId string, logger *log.
 	return false
 }
 
+// DiscoverServices 通过服务名发现服务.
 func (consulClient *MyDiscoverClient) DiscoverServices(serviceName string, logger *log.Logger) []interface{} {
 	// 1. 从 Consul 中获取服务实例列表
 	req, err := http.NewRequest("GET",
@@ -131,7 +138,7 @@ func (consulClient *MyDiscoverClient) DiscoverServices(serviceName string, logge
 	if err != nil {
 		log.Println("Discover Service Error!")
 	} else if resp.StatusCode == 200 {
-
+		// 请求返回的是一个服务信息的list
 		var serviceList []struct {
 			Service InstanceInfo `json:"Service"`
 		}

@@ -1,3 +1,4 @@
+// Package transport 通过http实现服务.
 package transport
 
 import (
@@ -16,17 +17,17 @@ var (
 	ErrorBadRequest = errors.New("invalid request parameter")
 )
 
-// MakeHttpHandler make http handler use mux
-// 使用一个多路服用处理不同的请求
+// MakeHttpHandler 一个多路服用处理不同的请求
 func MakeHttpHandler(ctx context.Context, endpoints endpts.DiscoveryEndpoints, logger log.Logger) http.Handler {
 	r := mux.NewRouter()
-	// 定义处理器
+	// 定义处理器的kit选项
 	options := []kithttp.ServerOption{
+		// 用于非终端错误处理和编码
 		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(logger)),
 		kithttp.ServerErrorEncoder(encodeError),
 	}
 
-	// 定义处理say-Hello的处理器
+	// 定义处理say-Hello的处理器,kithttp.NewServer内部实现了ServerHTTP
 	r.Methods("GET").Path("/say-hello").Handler(kithttp.NewServer(
 		endpoints.SayHelloEndpoint,
 		decodeSayHelloRequest,

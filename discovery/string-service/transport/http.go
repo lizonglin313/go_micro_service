@@ -48,7 +48,7 @@ func MakeHttpHandler(ctx context.Context, endpoints endpoint.StringEndpoints, lo
 
 // decodeStringRequest decode request params to struct
 func decodeStringRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	vars := mux.Vars(r)
+	vars := mux.Vars(r) // Vars returns the route variables for the current request, if any.
 	requestType, ok := vars["type"]
 	if !ok {
 		return nil, ErrorBadRequest

@@ -9,13 +9,14 @@ import (
 	"sync"
 )
 
+// KitDiscoverClient 使用kit实现服务发现接口.
 type KitDiscoverClient struct {
 	Host   string // Consul Host
 	Port   int    // Consul Port
 	client consul.Client
 	// 连接 consul 的配置
 	config *api.Config
-	mutex sync.Mutex
+	mutex  sync.Mutex
 	// 服务实例缓存字段
 	instancesMap sync.Map
 }
@@ -32,23 +33,12 @@ func NewKitDiscoverClient(consulHost string, consulPort int) (DiscoveryClient, e
 	return &KitDiscoverClient{
 		Host:   consulHost,
 		Port:   consulPort,
-		config:consulConfig,
+		config: consulConfig,
 		client: client,
 	}, err
 }
 
-// Register
-// @Desc: 	借助 consul.Client.Register 实现
-// @Rece:	consulClient
-// @Param:	serviceName
-// @Param:	instanceId
-// @Param:	healthCheckUrl
-// @Param:	instanceHost
-// @Param:	instancePort
-// @Param:	meta
-// @Param:	logger
-// @Return:	bool
-// @Notice:
+// Register	借助 consul.Client.Register 实现
 func (consulClient *KitDiscoverClient) Register(serviceName, instanceId, healthCheckUrl string,
 	instanceHost string, instancePort int, meta map[string]string, logger *log.Logger) bool {
 
@@ -96,21 +86,21 @@ func (consulClient *KitDiscoverClient) DeRegister(instanceId string, logger *log
 }
 
 func (consulClient *KitDiscoverClient) DiscoverServices(serviceName string, logger *log.Logger) []interface{} {
-
 	//  先查看本地是否该服务已监控并缓存
 	instanceList, ok := consulClient.instancesMap.Load(serviceName)
 	if ok {
+		// 如果本地有缓存的服务实例,直接返回
 		return instanceList.([]interface{})
 	}
 	// 申请锁
 	consulClient.mutex.Lock()
 	defer consulClient.mutex.Unlock()
-	// 再次检查是否监控
+	// 因为已经加锁,所以再次检查是否监控
 	instanceList, ok = consulClient.instancesMap.Load(serviceName)
 	if ok {
 		return instanceList.([]interface{})
 	} else {
-		// 注册监控
+		// 对这个服务进行监控,在有变化时更新缓存
 		go func() {
 			// 使用 consul 服务实例监控来监控某个服务名的服务实例列表变化
 			params := make(map[string]interface{})
@@ -142,7 +132,7 @@ func (consulClient *KitDiscoverClient) DiscoverServices(serviceName string, logg
 			defer plan.Stop()
 			plan.Run(consulClient.config.Address)
 		}()
-	}
+	}	// 从这里往上的部分是为了通过缓存减少注册中心负担,也可以直接去掉
 
 	// 根据服务名请求服务实例列表
 	entries, _, err := consulClient.client.Service(serviceName, "", false, nil)

@@ -1,35 +1,21 @@
+// Package discover 定义和实现了与consul交互的接口.
 package discover
 
 import (
 	"log"
 )
 
-//  DiscoveryClient
-//  @Description: 包括服务注册，发现和注销
-//					用于 与consul进行交互的接口
+// DiscoveryClient 包括服务注册，发现和注销 用于 与consul进行交互的接口.
 type DiscoveryClient interface {
 
-	/**
-	 * 服务注册接口
-	 * @param serviceName 服务名
-	 * @param instanceId 服务实例Id
-	 * @param instancePort 服务实例端口
-	 * @param healthCheckUrl 健康检查地址
-	 * @param instanceHost 服务实例地址
-	 * @param meta 服务实例元数据
-	 */
-	Register(serviceName, instanceId, healthCheckUrl string, instanceHost string, instancePort int, meta map[string]string, logger *log.Logger) bool
+	// Register 向consul注册服务实例.
+	Register(serviceName, instanceId, healthCheckUrl string, instanceHost string, instancePort int,
+		meta map[string]string, logger *log.Logger) bool
 
-	/**
-	 * 服务注销接口
-	 * @param instanceId 服务实例Id
-	 */
+	// DeRegister 向consul注销服务实例.
 	DeRegister(instanceId string, logger *log.Logger) bool
 
-	/**
-	 * 发现服务实例接口
-	 * @param serviceName 服务名
-	 */
+	// DiscoverServices 通过服务名向consul请求发现某个服务.
 	DiscoverServices(serviceName string, logger *log.Logger) []interface{}
 }
 
