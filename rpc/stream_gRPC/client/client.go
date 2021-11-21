@@ -17,11 +17,17 @@ func main() {
 		panic("connect error")
 	}
 	defer conn.Close()
+
+	// 生成客户端
 	stringClient := stream_pb.NewStringServiceClient(conn)
+	// 构造请求
 	stringReq := &stream_pb.StringRequest{A: "A", B: "B"}
+	// 向服务端请求，服务端以流的形式响应
 	stream, _ := stringClient.LotsOfServerStream(context.Background(), stringReq)
 	for {
+		// 持续接收
 		item, stream_error := stream.Recv()
+		// 至流结束
 		if stream_error == io.EOF {
 			break
 		}
@@ -31,14 +37,16 @@ func main() {
 		fmt.Printf("StringService Concat : %s concat %s = %s\n", stringReq.A, stringReq.B, item.GetRet())
 	}
 
+	// 再以流的形式向服务端发送请求
 	sendClientStreamRequest(stringClient)
 
-	//sendClientAndServerStreamRequest(stringClient)
+	// 双向流的形式
+	sendClientAndServerStreamRequest(stringClient)
 }
 
 func sendClientStreamRequest(client stream_pb.StringServiceClient) {
 	fmt.Printf("test sendClientStreamRequest \n")
-
+	// 建立流连接
 	stream, err := client.LotsOfClientStream(context.Background())
 	for i := 0; i < 10; i++ {
 		if err != nil {
@@ -47,6 +55,7 @@ func sendClientStreamRequest(client stream_pb.StringServiceClient) {
 		}
 		stream.Send(&stream_pb.StringRequest{A: strconv.Itoa(i), B: strconv.Itoa(i + 1)})
 	}
+	// 流请求结束并接收响应
 	reply, err := stream.CloseAndRecv()
 	if err != nil {
 		fmt.Printf("failed to recv: %v", err)
@@ -57,13 +66,18 @@ func sendClientStreamRequest(client stream_pb.StringServiceClient) {
 func sendClientAndServerStreamRequest(client stream_pb.StringServiceClient) {
 	fmt.Printf("test sendClientAndServerStreamRequest \n")
 	var err error
+	// 建立流连接
 	stream, err := client.LotsOfServerAndClientStream(context.Background())
 	if err != nil {
 		log.Printf("failed to call: %v", err)
 		return
 	}
 	var i int
-	for {
+	for { // 在一次for里 又发送 又接收
+		if i > 10 {
+			stream.CloseSend()	// 在这里通知服务器(EOF)我请求流结束
+			break	// 避免无限循环
+		}
 		err1 := stream.Send(&stream_pb.StringRequest{A: strconv.Itoa(i), B: strconv.Itoa(i + 1)})
 		if err1 != nil {
 			log.Printf("failed to send: %v", err)
