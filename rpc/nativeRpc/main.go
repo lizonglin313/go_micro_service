@@ -13,6 +13,7 @@ import (
 func main()  {
 	stringService := new(service.StringService)
 	fmt.Println("Register function...")
+
 	rpc.Register(stringService)
 	fmt.Println("Function registered, wait request...")
 	rpc.HandleHTTP()
