@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b837ef8d-e2c6-433d-b446-b15d73794aff" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,10 +45,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../discovery" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\go_kit_gRPC\proto" />
       <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\stream_gRPC\client" />
       <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\stream_gRPC\server" />
       <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\stream_gRPC\pb" />

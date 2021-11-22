@@ -22,6 +22,12 @@ func main() {
 	stringClient := stream_pb.NewStringServiceClient(conn)
 	// 构造请求
 	stringReq := &stream_pb.StringRequest{A: "A", B: "B"}
+	response, err := stringClient.Concat(context.Background(), stringReq)
+	if err != nil {
+		log.Printf("failed to recv form Concat service: %v", err)
+	}
+	fmt.Printf("Recv from Concat service: %s\n", response.Ret)
+
 	// 向服务端请求，服务端以流的形式响应
 	stream, _ := stringClient.LotsOfServerStream(context.Background(), stringReq)
 	for {
