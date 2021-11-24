@@ -34,7 +34,7 @@ func (mw loggingMiddleware) Concat(ctx context.Context, a, b string) (ret string
 
 	// 再去执行真正的功能
 	ret, err = mw.Service.Concat(ctx, a, b)
-	return
+	return ret, err
 }
 
 func (mw loggingMiddleware) Diff(ctx context.Context, a, b string) (ret string, err error) {
@@ -49,5 +49,17 @@ func (mw loggingMiddleware) Diff(ctx context.Context, a, b string) (ret string, 
 	}(time.Now())
 
 	ret, err = mw.Service.Diff(ctx, a, b)
-	return
+	return ret, err
+}
+
+func (mw loggingMiddleware) HealthCheck() (result bool) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "HealthChcek",
+			"result", result,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	result = true
+	return result
 }

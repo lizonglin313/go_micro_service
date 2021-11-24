@@ -3,7 +3,7 @@ syntax = "proto3";
 
 option go_package="./;proto";
 
-package pb;
+package proto;
 
 service StringService {
   rpc Concat(StringRequest) returns (StringResponse);
