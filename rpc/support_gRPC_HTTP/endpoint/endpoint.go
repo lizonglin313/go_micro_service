@@ -3,12 +3,24 @@ package endpoint
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
+	"log"
 	"rpc/support_gRPC_HTTP/service"
 )
 
 type Endpoints struct {
-	SumEndpoint    endpoint.Endpoint
-	ConcatEndpoint endpoint.Endpoint
+	SumEndpoint         endpoint.Endpoint
+	ConcatEndpoint      endpoint.Endpoint
+	HealthCheckEndpoint endpoint.Endpoint
+}
+
+func (e Endpoints) HealthCheck(ctx context.Context, status bool) bool {
+	req := HealthCheckRequest{}
+	resp, err := e.HealthCheckEndpoint(ctx, req)
+	if err != nil {
+		log.Println("Health Check Error!")
+		return false
+	}
+	return resp.(HealthCheckResponse).Status
 }
 
 func (e Endpoints) Sum(ctx context.Context, a, b int) (reply int) {
@@ -36,12 +48,12 @@ func (e Endpoints) Concat(ctx context.Context, a, b string) (reply string) {
 }
 
 type SumRequest struct {
-	A int	`json:"a"`
-	B int	`json:"b"`
+	A int `json:"a"`
+	B int `json:"b"`
 }
 
 type SumResponse struct {
-	Reply int	`json:"reply"`
+	Reply int `json:"reply"`
 }
 
 func MakeSumEndpoint(svc service.SumConcatService) endpoint.Endpoint {
@@ -53,12 +65,12 @@ func MakeSumEndpoint(svc service.SumConcatService) endpoint.Endpoint {
 }
 
 type ConcatRequest struct {
-	A string	`json:"a"`
-	B string	`json:"b"`
+	A string `json:"a"`
+	B string `json:"b"`
 }
 
 type ConcatResponse struct {
-	Reply string	`json:"reply"`
+	Reply string `json:"reply"`
 }
 
 func MakeConcatEndpoint(svc service.SumConcatService) endpoint.Endpoint {
@@ -66,5 +78,19 @@ func MakeConcatEndpoint(svc service.SumConcatService) endpoint.Endpoint {
 		edpConcatReq := request.(ConcatRequest)
 		reply := svc.Concat(ctx, edpConcatReq.A, edpConcatReq.B)
 		return ConcatResponse{Reply: reply}, nil
+	}
+}
+
+type HealthCheckRequest struct {
+}
+
+type HealthCheckResponse struct {
+	Status bool `json:"status"`
+}
+
+func MakeHealthCheckEndpoint(svc service.SumConcatService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+		status := svc.HealthCheck(ctx, true)
+		return HealthCheckResponse{Status: status}, nil
 	}
 }
