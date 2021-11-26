@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b837ef8d-e2c6-433d-b446-b15d73794aff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/support_gRPC_HTTP/server/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/transport/gRPC.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/transport/gRPC.go" afterDir="false" />
     </list>
@@ -16,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Go Application" />
         <option value="Go File" />
+        <option value="Go Application" />
       </list>
     </option>
   </component>
@@ -37,13 +38,15 @@
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="ProjectId" id="21D97bcmBJ55SXrKdRF4meGVE9w" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="DefaultGoTemplateProperty" value="Go Application" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -63,7 +66,7 @@
       <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\nativeRpc" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build rpc/go_kit_gRPC">
+  <component name="RunManager" selected="Go Build.go build rpc/support_gRPC_HTTP/client_gRPC">
     <configuration name="go build rpc/go_kit_gRPC" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="rpc" />
       <working_directory value="$PROJECT_DIR$" />
@@ -82,8 +85,28 @@
       <filePath value="$PROJECT_DIR$/nativeRpc/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build rpc/support_gRPC_HTTP/client_gRPC" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="rpc/support_gRPC_HTTP/client_gRPC" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/support_gRPC_HTTP/client_gRPC/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build rpc/support_gRPC_HTTP/server" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="rpc/support_gRPC_HTTP/server" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/support_gRPC_HTTP/server/main.go" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build rpc/support_gRPC_HTTP/client_gRPC" />
+        <item itemvalue="Go Build.go build rpc/support_gRPC_HTTP/server" />
         <item itemvalue="Go Build.go build rpc/go_kit_gRPC" />
         <item itemvalue="Go Build.go build rpc/nativeRpc" />
       </list>
