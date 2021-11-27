@@ -1,6 +1,7 @@
 package discover
 
 import (
+	"fmt"
 	"github.com/go-kit/kit/sd/consul"
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/api/watch"
@@ -41,10 +42,13 @@ func (consulClient *KitDiscoverClient) Register(serviceName, instanceId, healthC
 	// 2. 进行注册
 	err := consulClient.client.Register(serviceRegistration)
 	if err != nil {
-		logger.Println("Register Service Error!")
+		// Ubuntu报错就在这里 因为传入的 logger 是临时定义的，所以在使用时会报空指针错误
+		// logger.Println("Register Service Error!")
+		fmt.Println("Register Service Error!")
 		return false
 	}
-	logger.Println("Register Service Success!")
+	// logger.Println("Register Service Success!")
+	fmt.Println("Register Service Success!")
 	return true
 }
 

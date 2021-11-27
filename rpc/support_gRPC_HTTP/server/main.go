@@ -27,9 +27,6 @@ func main() {
 	consulHost := flag.String("consul.host", "127.0.0.1", "consul host")
 	serviceName := flag.String("service.name", "SumConcatService", "service name")
 
-	servicePort := flag.Int("service.port", 8123, "service port")
-	serviceHost := flag.String("service.host", "127.0.0.1", "service host")
-
 	flag.Parse()
 
 	var logger log.Logger
@@ -67,8 +64,8 @@ func main() {
 		logger.Log("addr", *httpAddr)
 
 		httpHandler := transport.MakeHttpHandler(endpoints)
-		//启动前执行注册
-		if !discoveryClient.Register(*serviceName, instanceId, "/health", *serviceHost,  *servicePort, nil, &slog.Logger{}){
+		// 启动前执行注册
+		if !discoveryClient.Register(*serviceName, instanceId, "/health", "127.0.0.1",  8123, nil, &slog.Logger{}){
 			slog.Printf("string-service for service %s failed.", serviceName)
 			// 注册失败，服务启动失败
 			os.Exit(-1)

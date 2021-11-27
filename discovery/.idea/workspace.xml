@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551311e9-15f1-4bfb-bd20-4e426eba1303" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/discover/discover_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rpc/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/endpoint/endpoint.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/endpoint/endpoint.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/discover/kit_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/discover/kit_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/service/service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/transport/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/support_gRPC_HTTP/transport/http.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

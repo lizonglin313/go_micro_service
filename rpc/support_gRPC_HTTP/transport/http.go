@@ -4,23 +4,23 @@ import (
 	"context"
 	"encoding/json"
 	transport_http "github.com/go-kit/kit/transport/http"
+	"github.com/gorilla/mux"
 	"net/http"
 	"rpc/support_gRPC_HTTP/endpoint"
-	"github.com/gorilla/mux"
 )
 
 func MakeHttpHandler(endpoints endpoint.Endpoints) http.Handler {
 	// mux := http.NewServeMux() // 构造复用器
 	r := mux.NewRouter()
 	// 设置工作路由
-	r.Methods("GET").Path("/sum").Handler(
+	r.Methods("POST").Path("/sum").Handler(
 		transport_http.NewServer(
 			endpoints.SumEndpoint,
 			DecodeHttpSumRequest,
 			EncodeHttpResponse,
 		))
 
-	r.Methods("GET").Path("/concat").Handler(
+	r.Methods("POST").Path("/concat").Handler(
 		transport_http.NewServer(
 			endpoints.ConcatEndpoint,
 			DecodeHttpConcatRequest,
@@ -62,7 +62,7 @@ func DecodeHttpHealthCheckRequest(ctx context.Context, r *http.Request) (interfa
 }
 
 // EncodeHttpResponse 将endpoint响应结构体返回给Http.
-func EncodeHttpResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
+func EncodeHttpResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	w.Header().Set("Content-Type", "application/json;charset=utf-8") // 设置编码格式
 	return json.NewEncoder(w).Encode(response)
 }

@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b837ef8d-e2c6-433d-b446-b15d73794aff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/support_gRPC_HTTP/discover/discover_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../discovery/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../discovery/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/endpoint/endpoint.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/endpoint/endpoint.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/discover/kit_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/discover/kit_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/service/service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/support_gRPC_HTTP/transport/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/support_gRPC_HTTP/transport/http.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +68,7 @@
       <recent name="D:\Coding\WorkPlace\Golang\go_micro_service\rpc\nativeRpc" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build rpc/support_gRPC_HTTP/client_gRPC">
+  <component name="RunManager" selected="Go Build.go build rpc/support_gRPC_HTTP/server">
     <configuration name="go build rpc/go_kit_gRPC" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="rpc" />
       <working_directory value="$PROJECT_DIR$" />
@@ -111,8 +107,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build rpc/support_gRPC_HTTP/client_gRPC" />
         <item itemvalue="Go Build.go build rpc/support_gRPC_HTTP/server" />
+        <item itemvalue="Go Build.go build rpc/support_gRPC_HTTP/client_gRPC" />
         <item itemvalue="Go Build.go build rpc/go_kit_gRPC" />
         <item itemvalue="Go Build.go build rpc/nativeRpc" />
       </list>
@@ -132,6 +128,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
