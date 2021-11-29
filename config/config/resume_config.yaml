@@ -1,0 +1,9 @@
+ResumeInformation:
+  Name: "lzl"
+  Sex: "male"
+  Age: 20
+  Habits:
+    - "Music"
+    - "Running"
+  RegisterTime: "2021-11-29 13:12:12"
+  Address: "Chengdu"
