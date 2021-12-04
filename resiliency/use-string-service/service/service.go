@@ -49,37 +49,83 @@ func NewUseStringService(client discover.DiscoveryClient, lb loadbanlace.LoadBal
 	}
 }
 
+//func (s UseStringService) UseStringService(operationType, a, b string) (string, error) {
+//	var operationResult string
+//	var err error
+//
+//	instances := s.discoveryClient.DiscoverServices(StringService, config.Logger)
+//	instanceList := make([]*api.AgentService, len(instances))
+//	for i := 0; i < len(instances); i++ {
+//		// 断言类型
+//		instanceList[i] = instances[i].(*api.AgentService)
+//	}
+//
+//	// 使用复杂均衡选择实例执行
+//	selectInstance, err := s.loadbalance.SelectService(instanceList)
+//	if err == nil {
+//		config.Logger.Printf("current string-service ID is %s and address:port is %s:%s",
+//			selectInstance.ID, selectInstance.Address, strconv.Itoa(selectInstance.Port))
+//		requestUrl := url.URL{ // 构造请求url
+//			Scheme: "http",
+//			Host:   selectInstance.Address + ":" + strconv.Itoa(selectInstance.Port),
+//			Path:   "/op/" + operationType + "/" + a + "/" + b,
+//		}
+//		// 进行请求
+//		resp, err := http.Post(requestUrl.String(), "", nil)
+//		if err == nil {
+//			result := &StringResponse{}
+//			err = json.NewDecoder(resp.Body).Decode(result)
+//			if err == nil && result.Error == nil {
+//				operationResult = result.Result
+//			}
+//		}
+//	}
+//	return operationResult, err
+//}
+
 func (s UseStringService) UseStringService(operationType, a, b string) (string, error) {
 	var operationResult string
-	var err error
+	err := hystrix.Do(StringServiceCommandName, func() error {
+		instances := s.discoveryClient.DiscoverServices(StringService, config.Logger)
+		// 随机选取实例执行
+		instanceList := make([]*api.AgentService, len(instances))
+		for i := 0; i < len(instances); i++ {
+			instanceList[i] = instances[i].(*api.AgentService)
+		}
 
-	instances := s.discoveryClient.DiscoverServices(StringService, config.Logger)
-	instanceList := make([]*api.AgentService, len(instances))
-	for i := 0; i < len(instances); i++ {
-		// 断言类型
-		instanceList[i] = instances[i].(*api.AgentService)
-	}
-
-	// 使用复杂均衡选择实例执行
-	selectInstance, err := s.loadbalance.SelectService(instanceList)
-	if err == nil {
-		config.Logger.Printf("current string-service ID is %s and address:port is %s:%s",
-			selectInstance.ID, selectInstance.Address, strconv.Itoa(selectInstance.Port))
-		requestUrl := url.URL{ // 构造请求url
+		selectInstance, err := s.loadbalance.SelectService(instanceList)
+		if err != nil {
+			config.Logger.Println(err.Error())
+			return err
+		}
+		config.Logger.Printf("current string-service ID is %s and address:port is %s:%s\n", selectInstance.ID, selectInstance.Address, strconv.Itoa(selectInstance.Port))
+		requestUrl := url.URL{
 			Scheme: "http",
 			Host:   selectInstance.Address + ":" + strconv.Itoa(selectInstance.Port),
 			Path:   "/op/" + operationType + "/" + a + "/" + b,
 		}
-		// 进行请求
+
 		resp, err := http.Post(requestUrl.String(), "", nil)
-		if err == nil {
-			result := &StringResponse{}
-			err = json.NewDecoder(resp.Body).Decode(result)
-			if err == nil && result.Error == nil {
-				operationResult = result.Result
-			}
+		if err != nil {
+			return err
 		}
-	}
+		result := &StringResponse{}
+
+		err = json.NewDecoder(resp.Body).Decode(result)
+		if err != nil {
+			return err
+		} else if result.Error != nil {
+			return result.Error
+		}
+
+		operationResult = result.Result
+		return nil
+	},
+		func(e error) error {
+			// 这是定义的一个简单的失败回滚函数
+			// 如果发生错误 如该服务的熔断器已经打开 则直接返回错误 进行服务熔断
+			return ErrHystrixFallbackExecute
+		})
 	return operationResult, err
 }
 

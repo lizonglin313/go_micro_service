@@ -43,7 +43,7 @@ func MakeHttpHandler(ctx context.Context, endpoints endpoint.UseStringEndpoints,
 		options...,
 	))
 
-	// 添加 hytrix 监控数据
+	// 添加 hystrix 监控数据
 	hystrixStreamHandler := hystrix.NewStreamHandler()
 	hystrixStreamHandler.Start()
 	r.Handle("/hystrix/stream", hystrixStreamHandler)
