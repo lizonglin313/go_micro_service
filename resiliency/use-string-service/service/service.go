@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/hashicorp/consul/api"
 	"net/http"
@@ -87,6 +88,7 @@ func (s UseStringService) UseStringService(operationType, a, b string) (string, 
 	var operationResult string
 	err := hystrix.Do(StringServiceCommandName, func() error {
 		instances := s.discoveryClient.DiscoverServices(StringService, config.Logger)
+		fmt.Println("LENNNNNNNNNG is %d", len(instances))
 		// 随机选取实例执行
 		instanceList := make([]*api.AgentService, len(instances))
 		for i := 0; i < len(instances); i++ {
