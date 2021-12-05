@@ -43,7 +43,8 @@ func main() {
 	var svc service.Service
 	svc = service.NewUseStringService(discoveryClient, &loadbanlace.RandomLoadBalance{})
 	useStringEndpoint := endpoint.MakeUseStringEndpoint(svc)
-	// 为这个 ep 加上断路器,  circuitbreaker.Hystrix 也返回一个 ep
+	// 使用go-kit为这个 ep 加上断路器,  circuitbreaker.Hystrix 也返回一个 ep
+	// 需要注意 如果使用 go-kit 的hystrix则不能使用回滚函数
 	useStringEndpoint = circuitbreaker.Hystrix(service.StringServiceCommandName)(useStringEndpoint)
 
 	healthCheckEndpoint := endpoint.MakeHealthCheckEndpoint(svc)
