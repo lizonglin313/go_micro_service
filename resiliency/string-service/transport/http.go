@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/transport"
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -41,6 +42,11 @@ func MakeHttpHandler(ctx context.Context, endpoints endpoint.StringEndpoints, lo
 		encodeStringResponse,
 		options...,
 	))
+
+	// 添加 hystrix 监控数据 -- 测试
+	hystrixStreamHandler := hystrix.NewStreamHandler()
+	hystrixStreamHandler.Start()
+	r.Handle("/hystrix/stream", hystrixStreamHandler)
 
 	return r
 }
