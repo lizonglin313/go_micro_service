@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/transport"
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -43,10 +42,12 @@ func MakeHttpHandler(ctx context.Context, endpoints endpoint.StringEndpoints, lo
 		options...,
 	))
 
+	// 事实证明 不可以在这这里加监控
+	// 因为这里没有使用 hystrix.Do 去进行错误处理和链路熔断
 	// 添加 hystrix 监控数据 -- 测试
-	hystrixStreamHandler := hystrix.NewStreamHandler()
-	hystrixStreamHandler.Start()
-	r.Handle("/hystrix/stream", hystrixStreamHandler)
+	//hystrixStreamHandler := hystrix.NewStreamHandler()
+	//hystrixStreamHandler.Start()
+	//r.Handle("/hystrix/stream", hystrixStreamHandler)
 
 	return r
 }
