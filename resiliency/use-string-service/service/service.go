@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"resiliency/discover"
-	"resiliency/loadbanlace"
+	"resiliency/loadbalance"
 	"resiliency/string-service/config"
 	"strconv"
 )
@@ -29,7 +29,7 @@ type Service interface {
 
 type UseStringService struct {
 	discoveryClient discover.DiscoveryClient
-	loadbalance     loadbanlace.LoadBalance
+	loadbalance     loadbalance.LoadBalance
 }
 
 type StringResponse struct {
@@ -38,7 +38,7 @@ type StringResponse struct {
 }
 
 // NewUseStringService 可以定制服务发现客户端和负载平衡策略.
-func NewUseStringService(client discover.DiscoveryClient, lb loadbanlace.LoadBalance) Service {
+func NewUseStringService(client discover.DiscoveryClient, lb loadbalance.LoadBalance) Service {
 	hystrix.ConfigureCommand(StringServiceCommandName, hystrix.CommandConfig{
 		// 设置请求阈值为 5
 		RequestVolumeThreshold: 5,

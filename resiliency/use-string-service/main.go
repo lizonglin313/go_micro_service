@@ -10,7 +10,7 @@ import (
 	"os"
 	"os/signal"
 	"resiliency/discover"
-	"resiliency/loadbanlace"
+	"resiliency/loadbalance"
 	"resiliency/use-string-service/config"
 	"resiliency/use-string-service/endpoint"
 	"resiliency/use-string-service/service"
@@ -41,7 +41,7 @@ func main() {
 	}
 
 	var svc service.Service
-	svc = service.NewUseStringService(discoveryClient, &loadbanlace.RandomLoadBalance{})
+	svc = service.NewUseStringService(discoveryClient, &loadbalance.RandomLoadBalance{})
 	useStringEndpoint := endpoint.MakeUseStringEndpoint(svc)
 	// 使用go-kit为这个 ep 加上断路器,  circuitbreaker.Hystrix 也返回一个 ep
 	// 需要注意 如果使用 go-kit 的hystrix则不能使用回滚函数

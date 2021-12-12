@@ -30,6 +30,7 @@ func NewKitDiscoverClient(consulHost string, consulPort int) (DiscoveryClient, e
 		return nil, err
 	}
 	client := consul.NewClient(apiClient)
+
 	return &KitDiscoverClient{
 		Host:   consulHost,
 		Port:   consulPort,
@@ -58,12 +59,12 @@ func (consulClient *KitDiscoverClient) Register(serviceName, instanceId, healthC
 
 	// 2. 发送服务注册到 Consul 中
 	err := consulClient.client.Register(serviceRegistration)
-
 	if err != nil {
 		log.Println("Register Service Error!")
 		return false
 	}
 	log.Println("Register Service Success!")
+
 	return true
 }
 
