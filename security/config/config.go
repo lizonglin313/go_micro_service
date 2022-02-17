@@ -7,8 +7,9 @@ import (
 )
 
 var Logger *log.Logger
-var KitLogger kitlog.Logger
+var KitLogger kitlog.Logger		// Logger 事实上是一个接口
 
+// init 方法 在使用该包之前 自动调用.
 func init() {
 	// 设置系统 log 输出方式等信息
 	Logger = log.New(os.Stderr, "", log.LstdFlags)
